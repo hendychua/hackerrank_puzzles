@@ -1,9 +1,11 @@
-letters_to_numbers = dict(a=1, b=2, c=3, d=4, e=5, f=6,
-                g=7, h=8, i=9, j=10, k=11, l=12,
-                m=13, n=14, o=15, p=16, q=17, r=18,
-                s=19, t=20, u=21, v=22, w=23, x=24,
-                y=25, z=26)
+from circularlinkedlist import CircularLinkedList
                 
+all_letters = "abcdefghijklmnopqrstuvwxyz"
+
+letters_linked = CircularLinkedList()
+for letter in all_letters:
+    letters_linked.add_node(letter)
+        
 def main(option):
     if option.lower() == "i":
         decode_from_input()
@@ -37,24 +39,29 @@ def decode_from_textfile():
         
 def decode_given_clues(encoded_clue, decoded_clue, encoded_answer):
     
-    ## get the encryption
-    difference = letters_to_numbers[encoded_clue[0]] - letters_to_numbers[decoded_clue[0]]
+    ## get the encryption by comparing the first letter
+    difference = letters_linked.get_node_position_by_data(encoded_clue[0]) - letters_linked.get_node_position_by_data(decoded_clue[0])
+    
+    ## since we are "moving forward" on the list:
+    ## if difference is negative, we convert it to positive
+    ## if difference is positive, we take 26 - the difference
+    if difference < 0:
+        difference = difference * -1
+    if difference > 0:
+        difference = 26 - difference
     
     answer = ""
     
     ## for every letter in the encoded answer, decrypt it and find the real answer
     for letter in encoded_answer:
         
+        index_of_letter = letters_linked.get_node_position_by_data(letter)
+        
         ## if its a letter and not spaces , - etc
-        if letter in letters_to_numbers.keys():
-            decoded_index = letters_to_numbers[letter] - difference
-            
-            if decoded_index < 0:
-                decoded_index = 26 + decoded_index  
-            for l, i in letters_to_numbers.iteritems():
-                if i == decoded_index:
-                     answer += l
-                     break
+        if  index_of_letter != -1:
+            decoded_letter = letters_linked.get_node_data_by_traversing_from(index_of_letter, difference)
+            answer += decoded_letter
+
         else:
             answer += letter
             
