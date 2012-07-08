@@ -23,3 +23,7 @@ It means all the clues, encoded answers have been stored in the textfile called 
 answers for all the questions will be printed out at one go. As of 06 July 2012, i have only 3 questions in it. I'm in the
 midst of adding more.
 
+UPDATES
+--------
+As of 8th July 2012, I've changed to using circular linkedlist for decrypting question 1 to 4. Its a good practice :) The circular linkedlist is pretty generic too. You can just use it for your own. Let me know if you find any bugs!
+
